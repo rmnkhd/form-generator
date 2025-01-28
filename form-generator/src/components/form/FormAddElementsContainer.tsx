@@ -1,23 +1,23 @@
 import React from 'react';
 
 // mui
-import { Box, Button } from '@mui/material';
+import {Box, Button} from '@mui/material';
 
 //types
-import { Element } from '../../types/types.ts';
+import {Element} from '../../types/types.ts';
 
 //local
-import { en } from "../../locale/en.ts";
+import {en} from "../../locale/en.ts";
 
 //enums
-import { ElementType } from "../../enums/elementType.ts";
+import {ElementType} from "../../enums/elementType.ts";
 
 interface FormAddElementsContainerProps {
     elements: Element[];
     setElements: React.Dispatch<React.SetStateAction<Element[]>>;
 }
 
-const FormAddElementsContainer: React.FC<FormAddElementsContainerProps> = ({ elements, setElements }) => {
+const FormAddElementsContainer: React.FC<FormAddElementsContainerProps> = ({elements, setElements}) => {
 
     const handleAddElement = (type: ElementType) => {
         const lastElement = elements[elements.length - 1];
@@ -27,6 +27,7 @@ const FormAddElementsContainer: React.FC<FormAddElementsContainerProps> = ({ ele
             id: `${elements.length + 1}`,
             type,
             label: '',
+            isRequired: type === ElementType.Input
         });
 
         // Helper function to check the conditions for adding elements
@@ -49,12 +50,12 @@ const FormAddElementsContainer: React.FC<FormAddElementsContainerProps> = ({ ele
             const newElement = createNewElement(type);
             setElements([...elements, newElement]);
         } else {
-            console.log(`You must add the correct type of element after ${lastElement.type}`);
+            alert(`You must add the correct type of element after ${lastElement.type}`)
         }
     };
 
     return (
-        <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
+        <Box sx={{mt: 3, display: 'flex', gap: 2}}>
             <Button variant="outlined" color="secondary" onClick={() => handleAddElement(ElementType.Input)}>
                 {en.AddInputElement}
             </Button>

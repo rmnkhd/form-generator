@@ -5,6 +5,7 @@ interface FormState {
     forms: Form[];
     addForm: (form: Form) => void;
     updateForm: (formId: string, form: Form) => void;
+    getForms: (forms: Form[]) => void;
 }
 
 export const useFormStore = create<FormState>((set) => ({
@@ -14,4 +15,6 @@ export const useFormStore = create<FormState>((set) => ({
         set((state) => ({
             forms: state.forms.map((f) => (f.id === formId ? form : f)),
         })),
+    getForms: (forms) => set(() => ({ forms })),
+
 }));

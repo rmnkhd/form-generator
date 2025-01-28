@@ -18,19 +18,25 @@ import {en} from "../../locale/en.ts";
 import FormAddElementsContainer from "./FormAddElementsContainer.tsx";
 import FormElements from "./FormElements.tsx";
 
+//services
+import StorageService from "../../services/storage.service.ts";
+
 
 const FormBuilder: React.FC = () => {
     const [formName, setFormName] = useState('');
     const [elements, setElements] = useState<Element[]>([]);
     const addForm = useFormStore((state) => state.addForm);
-
+    const forms = useFormStore((state) => state.forms);
 
     const handleSaveForm = () => {
         const newForm: Form = {id: Date.now().toString(), name: formName, elements};
         addForm(newForm);
+        StorageService.set('form-data', [...forms, newForm]);
         setFormName('');
         setElements([]);
     };
+
+
 
     return (
         <>

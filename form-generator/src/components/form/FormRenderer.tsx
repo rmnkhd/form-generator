@@ -17,7 +17,10 @@ import { en } from "../../locale/en.ts";
 //enums
 import { ElementType } from "../../enums/elementType.ts";
 
-const FormRenderer: React.FC<{ formId: string }> = ({ formId }) => {
+
+const FormRenderer: React.FC<{ formId: string , setCurrentFormId:React.Dispatch<React.SetStateAction<string | null>>
+}> = ({ formId , setCurrentFormId }) => {
+
     const form = useFormStore((state) =>
         state.forms.find((f) => f.id === formId)
     );
@@ -38,7 +41,7 @@ const FormRenderer: React.FC<{ formId: string }> = ({ formId }) => {
             Yup.object(
                 form.elements.reduce((acc, element) => {
                     if (element.isRequired) {
-                        acc[element.id] = Yup.string().required(
+                        acc[element.id] = Yup.string().min(1, `${element.label} is required`).required(
                             `${element.label} is required`
                         );
                     }
@@ -47,6 +50,7 @@ const FormRenderer: React.FC<{ formId: string }> = ({ formId }) => {
             )
         ),
     });
+
 
     const handleCheckboxChange = (id: string) => {
         setCheckboxStates((prev) => ({
@@ -64,12 +68,12 @@ const FormRenderer: React.FC<{ formId: string }> = ({ formId }) => {
         );
     };
 
-    const onSubmit = (data: any) => {
-        console.log("Form Data: ", data);
+    const back = () => {
+        setCurrentFormId(null)
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(back)}>
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
                 <Typography
                     variant="h4"
@@ -89,6 +93,7 @@ const FormRenderer: React.FC<{ formId: string }> = ({ formId }) => {
                                         {...field}
                                         label={element.label}
                                         error={!!errors[element.id]}
+                                        helperText={errors[element.id]?.message}
                                         sx={{ mt: 1 }}
                                         disabled={!isInputEditable(index)}
                                     />
@@ -133,7 +138,7 @@ const FormRenderer: React.FC<{ formId: string }> = ({ formId }) => {
                 ))}
             </Box>
             <Button sx={{ mt: 3 }} variant="contained" color="primary" type="submit">
-                {en.Back}
+                {en.Save}
             </Button>
         </form>
     );

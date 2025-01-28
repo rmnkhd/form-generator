@@ -1,5 +1,5 @@
 //react
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 //mui
 import {Box, Button, Typography} from '@mui/material';
@@ -16,6 +16,9 @@ import FormRenderer from "../components/form/FormRenderer.tsx";
 
 //local
 import {en} from "../locale/en.ts";
+
+//services
+import StorageService from "../services/storage.service.ts";
 
 
 const ContainerBox = styled(Box)(({ theme }) => ({
@@ -42,7 +45,15 @@ const Title = styled(Typography)(({ theme }) => ({
 
 const FormGeneratorView = () => {
     const [currentFormId, setCurrentFormId] = useState<string | null>(null);
+    const getForm = useFormStore((state) => state.getForms);
     const forms = useFormStore((state) => state.forms);
+
+    useEffect(() => {
+        const storedForms = StorageService.get("form-data");
+        if (Array.isArray(storedForms)) {
+            getForm(storedForms)
+        }
+    }, [getForm]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -68,7 +79,7 @@ const FormGeneratorView = () => {
                             </Box>
                         </>
                     ) : (
-                        <FormRenderer formId={currentFormId} />
+                        <FormRenderer formId={currentFormId} setCurrentFormId={setCurrentFormId} />
                     )}
                 </FormContainer>
             </ContainerBox>
