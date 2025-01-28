@@ -1,3 +1,5 @@
+import {ElementType} from "../enums/elementType.ts";
+
 export interface Form {
     id: string;
     name: string;
@@ -7,7 +9,7 @@ export interface Form {
 
 export interface Element {
     id: string;
-    type: 'text' | 'checkbox';
+    type: ElementType;
     label: string;
     isRequired?: boolean;
     choices?: Choice[];

@@ -2,13 +2,20 @@
 import React, { useState } from 'react';
 
 //mui
-import { Box, Typography } from '@mui/material';
+import {Box, Button, Typography} from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/system';
 import theme from "../theme/theme.ts";
 
 //hooks
 import {useFormStore} from "../hooks/useFormStore.ts";
+
+//components
+import FormBuilder from "../components/form/FormBuilder.tsx";
+import FormRenderer from "../components/form/FormRenderer.tsx";
+
+//local
+import {en} from "../locale/en.ts";
 
 
 const ContainerBox = styled(Box)(({ theme }) => ({
@@ -23,7 +30,7 @@ const ContainerBox = styled(Box)(({ theme }) => ({
 const FormContainer = styled(Box)(({ theme }) => ({
     textAlign: 'center',
     padding: theme.spacing(4),
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: '12px',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
 }));
@@ -34,15 +41,35 @@ const Title = styled(Typography)(({ theme }) => ({
 }));
 
 const FormGeneratorView = () => {
+    const [currentFormId, setCurrentFormId] = useState<string | null>(null);
+    const forms = useFormStore((state) => state.forms);
 
     return (
         <ThemeProvider theme={theme}>
             <ContainerBox>
                 <FormContainer>
                     <Title variant="h4" gutterBottom>
-                        Form Generator
+                        {en.FormGenerator}
                     </Title>
-
+                    {!currentFormId ? (
+                        <>
+                            <FormBuilder />
+                            <Box mt={4}>
+                                {forms.map((form) => (
+                                    <Button
+                                        key={form.id}
+                                        onClick={() => setCurrentFormId(form.id)}
+                                        variant="contained"
+                                        sx={{ marginBottom: '8px', textTransform: 'none' , color:"white" }}
+                                    >
+                                        {form.name}
+                                    </Button>
+                                ))}
+                            </Box>
+                        </>
+                    ) : (
+                        <FormRenderer formId={currentFormId} />
+                    )}
                 </FormContainer>
             </ContainerBox>
         </ThemeProvider>

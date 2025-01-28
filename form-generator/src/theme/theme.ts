@@ -81,6 +81,15 @@ const theme = createTheme({
                         backgroundColor: '#004d40',
                     },
                 },
+                outlined: {
+                    borderColor: '#00796b',
+                    color: '#00796b',
+                    '&:hover': {
+                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                        borderColor: '#004d40',
+                        color: '#004d40',
+                    },
+                },
                 text: {
                     backgroundColor: 'transparent',
                     '&:hover': {
@@ -109,6 +118,20 @@ const theme = createTheme({
                         color: '#00796b',
                         fontWeight: 500,
                     },
+                },
+            },
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '8px',
+                },
+            },
+        },
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '8px',
                 },
             },
         },
