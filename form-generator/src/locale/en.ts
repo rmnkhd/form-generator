@@ -6,6 +6,7 @@ export const en = {
     AddTextElement: 'Add Text Element',
     AddSelectElement: 'Add Select Element',
     Save: 'Save',
-    Back: 'Save',
+    Back: 'Back',
+    Type: 'Type',
 }
 
