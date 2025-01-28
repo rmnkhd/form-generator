@@ -55,10 +55,21 @@ const FormGeneratorView = () => {
         }
     }, [getForm]);
 
+    function clearAll () {
+        StorageService.delete('form-data');
+        window.location.reload();
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <ContainerBox>
                 <FormContainer>
+                    <Button
+                        sx={{display:"flex" , justifyContent:"start" , color:"red" , fontSize:"body1"}}
+                        onClick={clearAll}
+                    >
+                        {en.ClearAll}
+                    </Button>
                     <Title variant="h4" gutterBottom>
                         {en.FormGenerator}
                     </Title>
@@ -70,8 +81,18 @@ const FormGeneratorView = () => {
                                     <Button
                                         key={form.id}
                                         onClick={() => setCurrentFormId(form.id)}
-                                        variant="contained"
-                                        sx={{ marginBottom: '8px', textTransform: 'none' , color:"white" }}
+                                        variant="outlined"
+                                        sx={{
+                                            marginBottom: '8px',
+                                            textTransform: 'none' ,
+                                            color:"#ff5722",
+                                            borderColor: '#ff5722',
+                                            '&:hover': {
+                                                backgroundColor: '#ff5722',
+                                                borderColor: '#ff5722',
+                                                color: 'white',
+                                            },
+                                    }}
                                     >
                                         {form.name}
                                     </Button>

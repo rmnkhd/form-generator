@@ -8,5 +8,6 @@ export const en = {
     Save: 'Save',
     Back: 'Back',
     Type: 'Type',
+    ClearAll: 'Clear All',
 }
 
