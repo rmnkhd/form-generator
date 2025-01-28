@@ -56,8 +56,14 @@ const FormGeneratorView = () => {
     }, [getForm]);
 
     function clearAll () {
-        StorageService.delete('form-data');
-        window.location.reload();
+        const storedForms = StorageService.get("form-data");
+
+        if(storedForms?.length > 0) {
+            StorageService.delete('form-data');
+            window.location.reload();
+        } else {
+            alert("No form data found.");
+        }
     }
 
     return (
